@@ -1,0 +1,41 @@
+
+const express = require("express");
+const app= express();
+const mongoose = require("mongoose");
+const cors = require("cors");
+const cookieParser=require('cookie-parser');
+
+require("dotenv").config();
+
+// set up express
+
+
+app.use(cookieParser());
+app.use(express.json());
+app.use(cors());
+
+const userRouter= require('./routes/User');
+app.use('/user',userRouter);
+
+
+
+
+
+
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));
+
+mongoose.connect(
+    process.env.MONGODB_CONNECTION_STRING,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    },
+    (err) => {
+      if (err) throw err;
+      console.log("MongoDB connection established");
+    }
+  );
